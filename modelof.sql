@@ -6,11 +6,11 @@ USE viva_segura;
 -- =========================
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(25),
-    cpf CHAR(11) UNIQUE,
-    email VARCHAR(25) UNIQUE,
-    senha VARCHAR(10),
-    data_nascimento DATE
+    nome VARCHAR(100) not null,
+    cpf CHAR(11) UNIQUE not null,
+    email VARCHAR(100) UNIQUE not null,
+    senha VARCHAR(255),
+    data_nascimento DATE not null
 );
 
 -- =========================
@@ -18,10 +18,10 @@ CREATE TABLE usuario (
 -- =========================
 CREATE TABLE endereco (
     id_endereco INT AUTO_INCREMENT PRIMARY KEY,
-    rua VARCHAR(30),
+    rua VARCHAR(100) not null,
     numero VARCHAR(25),
-    bairro VARCHAR(50),
-    cep CHAR(8),
+    bairro VARCHAR(50) not null,
+    cep CHAR(50) not null,
     complemento VARCHAR(50),
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
@@ -32,9 +32,9 @@ CREATE TABLE endereco (
 -- =========================
 CREATE TABLE telefone (
     id_telefone INT AUTO_INCREMENT PRIMARY KEY,
-    numero VARCHAR(15),
-    ddd VARCHAR(5),
-    operadora VARCHAR(15),
+    numero VARCHAR(15) not null,
+    ddd VARCHAR(5) not null,
+    operadora VARCHAR(15) not null,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
@@ -44,10 +44,10 @@ CREATE TABLE telefone (
 -- =========================
 CREATE TABLE medida_protetiva (
     id_medida INT AUTO_INCREMENT PRIMARY KEY,
-    numero_processo VARCHAR(20),
-    data_inicio DATE,
-    data_fim DATE,
-    descricao TEXT,
+    numero_processo VARCHAR(50) not null,
+    data_inicio DATE not null,
+    data_fim DATE not null,
+    descricao TEXT not null,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
@@ -57,9 +57,9 @@ CREATE TABLE medida_protetiva (
 -- =========================
 CREATE TABLE denuncia (
     id_denuncia INT AUTO_INCREMENT PRIMARY KEY,
-    descricao TEXT,
-    data_denuncia DATE,
-    horario TIME,
+    descricao TEXT not null,
+    data_denuncia DATE not null,
+    horario TIME not null,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
@@ -69,9 +69,9 @@ CREATE TABLE denuncia (
 -- =========================
 CREATE TABLE emergencia (
     id_emergencia INT AUTO_INCREMENT PRIMARY KEY,
-    localizacao VARCHAR(25),
-    data DATE,
-    horario TIME,
+    localizacao VARCHAR(100) not null,
+    data DATE not null,
+    horario TIME not null,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
@@ -81,9 +81,9 @@ CREATE TABLE emergencia (
 -- =========================
 CREATE TABLE checkin_virtual (
     id_checkin INT AUTO_INCREMENT PRIMARY KEY,
-    localizacao VARCHAR(25),
-    data_hora DATETIME,
-    status_seguranca VARCHAR(10),
+    localizacao VARCHAR(100) not null,
+    data_hora DATETIME not null,
+    status_seguranca VARCHAR(20) not null,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
@@ -93,10 +93,10 @@ CREATE TABLE checkin_virtual (
 -- =========================
 CREATE TABLE profissional (
     id_profissional INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(25),
-    data_nascimento DATE,
-    sexo VARCHAR(10),
-    setor VARCHAR(50)
+    nome VARCHAR(100) not null,
+    data_nascimento DATE not null,
+    sexo VARCHAR(20) not null,
+    setor VARCHAR(100) not null
 );
 
 -- =========================
@@ -104,10 +104,10 @@ CREATE TABLE profissional (
 -- =========================
 CREATE TABLE atendimento (
     id_atendimento INT AUTO_INCREMENT PRIMARY KEY,
-    data DATE,
-    protocolo VARCHAR(20),
-    descricao TEXT,
-    id_usuario INT,
+    data DATE not null,
+    protocolo VARCHAR(50) not null,
+    descricao TEXT not null,
+    id_usuario INT not null,
     id_profissional INT,
     id_emergencia INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
@@ -120,7 +120,7 @@ CREATE TABLE atendimento (
 -- =========================
 CREATE TABLE servicos (
     id_servico INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(25),
+    nome VARCHAR(100) not null,
     descricao TEXT
 );
 
@@ -140,7 +140,7 @@ CREATE TABLE atendimento_servico (
 -- =========================
 CREATE TABLE cursos (
     id_curso INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(25),
+    nome VARCHAR(100) not null,
     carga_horaria INT
 );
 
@@ -149,7 +149,7 @@ CREATE TABLE cursos (
 -- =========================
 CREATE TABLE tipo_curso (
     id_tipo INT AUTO_INCREMENT PRIMARY KEY,
-    nome_tipo VARCHAR(25)
+    nome_tipo VARCHAR(100) not null
 );
 
 -- RELAÇÃO CURSO -> TIPO
@@ -162,8 +162,8 @@ ADD FOREIGN KEY (id_tipo) REFERENCES tipo_curso(id_tipo);
 -- =========================
 CREATE TABLE empregos (
     id_emprego INT AUTO_INCREMENT PRIMARY KEY,
-    cargo VARCHAR(50),
-    setor VARCHAR(50)
+    cargo VARCHAR(100) not null,
+    setor VARCHAR(100) not null
 );
 
 -- =========================
@@ -171,7 +171,7 @@ CREATE TABLE empregos (
 -- =========================
 CREATE TABLE tipo_emprego (
     id_tipo_emprego INT AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(50)
+    descricao VARCHAR(100) not null
 );
 
 -- RELAÇÃO EMPREGO -> TIPO
